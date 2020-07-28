@@ -14,13 +14,16 @@ GPIO.output(led,True)
 count = 0
 
 key = codecs.decode('11223344556677889900','hex')
-plain = codecs.decode("deadbeefdeadbeef",'hex')
+print("The Present key value :",key )
+text = "deadbeefdeadbeef"
+print("The plain text is : ",text)
+plain = codecs.decode(text,'hex')
 cipher = Present(key)
 encrypted = cipher.encrypt(plain)
 encrypt = codecs.encode(encrypted,'hex')
 print("The encrypted text is : ",encrypt)
 
-print('\n\rCAN Rx test')
+print('\n\rCAN Tx test')
 print('Bring up CAN0....')
 
 # Bring up can0 interface at 500kbps

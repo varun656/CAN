@@ -2,19 +2,17 @@ import can
 import time
 import os
 import codecs
-from Crypto.Hash import CMAC
-from Crypto.Cipher import DES3
+from Crypto.Cipher import Blowfish
+from struct import pack
 
 
-secret = b'1122334455667788'
-print("Receiver's key used for MAC : %s " % secret) 
-
-cobj = CMAC.new(secret, ciphermod=DES3)
 print('\n\rCAN Rx test')
 print('Bring up CAN0....')
 os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
 time.sleep(0.1)
-
+key = b'1122334455667788'
+print("The Blowfish encryption key is :", key)
+cipher = Blowfish.new(key, Blowfish.MODE_ECB)
 
 try:
     bus = can.interface.Bus(channel='can0', bustype='socketcan_native')
@@ -25,7 +23,6 @@ except OSError:
 print('Ready')
 
 try:
-    msg = []
     while True:
         message = bus.recv()    # Wait until a message is received.
         
@@ -35,25 +32,14 @@ try:
             s +=  '{0:x} '.format(message.data[i])
             d = b'message.data[i]'.decode()
             
-            
-        
         d = bytes.fromhex(s)
-        msg.append(d)
-        print(' {}'.format(c+s))
-        if len(msg) == 2:
-            cobj.update(msg[1])
-            mac = msg[0]
-            try:
-                cobj.verify(mac)
-                print("The message is authentic :%s " % msg[1])
-                msg.clear()
-            except ValueError:
-                print("The message is not authentic")
+        decrypted_data = cipher.decrypt(d)
         
-    
+        
         #print(decrypt)
-        #print(decrypt)
-        #print(' {}'.format(c+s))
+        #print(" The decrypted message is :", decrypt)
+        print(' {}'.format(c+s))
+        print("The decrypted msg is: ", decrypted_data)
         
     
 except KeyboardInterrupt:

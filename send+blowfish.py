@@ -3,6 +3,7 @@ import can
 import time
 import os
 import sys
+import codecs
 from Crypto.Cipher import Blowfish
 from struct import pack
 
@@ -24,21 +25,21 @@ GPIO.output(led,True)
 #msg1 = [hex(int(i,16)) for i in msg1]
 #msg1 = [1,2]
 bs = Blowfish.block_size
-key = b'Hello'
+key = b'1122334455667788'
+print("The Blowfish encryption key is :", key)
 cipher = Blowfish.new(key, Blowfish.MODE_ECB)
-plaintext = b'varun12'
-plen = bs - len(plaintext) % bs
-padding = [plen]*plen
-padding = pack('b'*plen, *padding)
-msg2 = cipher.encrypt(plaintext + padding)
-#print(msg1)
-
-print(msg2)
-
+plaintext = b'varun123'
+print("The text is                    :",plaintext)
+#plen = bs - len(plaintext) % bs
+#padding = [plen]*plen
+#padding = pack('b'*plen, *padding)
+#msg2 = cipher.encrypt(plaintext + padding)
+msg2 = cipher.encrypt(plaintext)
+msghex = codecs.encode(msg2,'hex')
+print("The encrypted message is       :",msg2)
+print("Encrypted message data in hex  :",msghex)
 #msg2 = bytearray(b"message")
 #print(msg2)
-
-count = 0
 
 print('\n\rCAN Rx test')
 print('Bring up CAN0....')
@@ -54,7 +55,7 @@ except OSError:
     print('Cannot find PiCAN board.')
     GPIO.output(led,False)
     exit()
-
+count = 0
 # Main loop
 try:
     while True:

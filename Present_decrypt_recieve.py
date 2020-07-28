@@ -9,7 +9,8 @@ print('\n\rCAN Rx test')
 print('Bring up CAN0....')
 os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
 time.sleep(0.1)
-key = codecs.decode('11223344556677889911','hex')
+key = codecs.decode('11223344556677889900','hex')
+
 cipher = Present(key)
 
 try:
@@ -19,7 +20,7 @@ except OSError:
     exit()
     
 print('Ready')
-
+print("The present key value is :",key)
 try:
     while True:
         message = bus.recv()    # Wait until a message is received.
@@ -32,12 +33,13 @@ try:
             
             
         
-        d = bytes.fromhex(s)   
+        d = bytes.fromhex(s)
+        print(d)
         decrypted = cipher.decrypt(d)
         decrypt = codecs.encode(decrypted,'hex')
     
         #print(decrypt)
-        print(decrypt)
+        print(" The decrypted message is :", decrypt)
         print(' {}'.format(c+s))
         
     

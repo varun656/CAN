@@ -6,9 +6,9 @@ cobj.update(b'varun123')
 mac = cobj.digest()
 print(mac)
 
-secret2 = b'1122334455667711'
+secret2 = b'1122334455667788'
 cobj2 = CMAC.new(secret, ciphermod=DES3)
-cobj2.update(b'varun14443')
+cobj2.update(b'varun123')
 #mac2 = cobj2.digest()
 #print(mac2)
 #print(cobj2.hexdigest())
