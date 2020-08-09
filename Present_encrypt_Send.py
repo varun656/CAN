@@ -39,21 +39,27 @@ except OSError:
     exit()
 
 # Main loop
+start = time.time()
 try:
     while True:
         GPIO.output(led,True)   
         msg = can.Message(arbitration_id=0x7de,data=encrypted,extended_id=False)
         bus.send(msg)
         count +=1
-        time.sleep(0.1)
-        GPIO.output(led,False)
-        time.sleep(0.1) 
-        print(count)    
+        '''if count == 2000:
+            break'''
+        #time.sleep(0.1)
+        #GPIO.output(led,False)
+        #time.sleep(0.1) 
+        print(count)   
          
 
     
 except KeyboardInterrupt:
     #Catch keyboard interrupt
     GPIO.output(led,False)
-    os.system("sudo /sbin/ip link set can0 down")
+    end = time.time()
+    TimeTaken = end - start
+    print(TimeTaken)
+    #os.system("sudo /sbin/ip link set can0 down")
     print('\n\rKeyboard interrtupt')

@@ -2,54 +2,58 @@ import can
 import time
 import os
 import codecs
+from Crypto.Cipher import Blowfish
 
 
 print('\n\rCAN Rx test')
 print('Bring up CAN0....')
 os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
-time.sleep(0.1) 
+key = b'1122334455667788'
+print("The Blowfish encryption key is :", key)
+cipher = Blowfish.new(key, Blowfish.MODE_ECB)
+
+
 
 try:
-    bus = can.interface.Bus(channel='can0', bustype='socketcan_native')
+    bus = can.interface.Bus(channel='can1', bustype='socketcan_native')
 except OSError:
     print('Cannot find PiCAN board.')
     exit()
     
 print('Ready')
-time1 = []
+#time1 = []
+count = 0
 try:
     while True:
         message = bus.recv()    # Wait until a message is received.
-        
+        count += 1
         c = '{0:f} {1:x} {2:x} '.format(message.timestamp, message.arbitration_id, message.dlc)
         s=''
         for i in range(message.dlc ):
             s +=  '{0:02X} '.format(message.data[i])
-            #d = b'message.data[i]'.decode()
+            d = b'message.data[i]'.decode()
             
             
-        #d = codecs.decode(s,'hex_codec')
         
-        #d = bytes.fromhex(s).decode('utf-8')
-        #d = bytearray(s)
-        d = bytearray.fromhex(s)
-        
-        print(' {}'.format(c+s) )
-        #time.sleep(0.1)
-        #time1.append(message.timestamp)
-        #diff = [time1[i+1]-time1[i] for i in range(len(time1)-1)]
-        #print(sum(diff))
+        d = bytes.fromhex(s)
         if d == b'start':
-           start = time.time() 
+            start = time.time()
+            continue;
         if d == b'end':
             end = time.time()
-            break;
+            break;    
+        decrypted = cipher.decrypt(d)
+        decrypt = codecs.encode(decrypted,'hex')
+        print(" The decrypted message is :", decrypt)
+        #print(' {}\n'.format(c+s))
 
+        
+        
+    
 except KeyboardInterrupt:
     #Catch keyboard interrupt
-    #os.system("sudo /sbin/ip link set can0 down")
+    os.system("sudo /sbin/ip link set can1 down")
     print('\n\rKeyboard interrtupt')
-
+count = count - 2
 TimeTaken = end - start
-print(TimeTaken)
-    
+print("The time taken to receive & decrypt {0} messages: {1}".format(count,TimeTaken))
