@@ -9,5 +9,5 @@ for i in range(10):
     msg = codecs.encode(data[i],'hex')
     print(msg)
 
-msg = codecs.encode(data[999],'hex')
+msg = codecs.encode(data[9],'hex')
 #print(msg)

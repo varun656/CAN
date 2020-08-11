@@ -4,7 +4,7 @@ import os
 from Crypto.Hash import CMAC
 from Crypto.Cipher import DES3
 
-secret = b'1122334455667711'
+secret = b'1122334455667788'
 cobj = CMAC.new(secret, ciphermod=DES3)
 print('\n\rCAN Rx test')
 print('Bring up CAN0....')

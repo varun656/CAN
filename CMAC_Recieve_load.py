@@ -23,11 +23,12 @@ except OSError:
     exit()
     
 print('Ready')
-
+count = 0
 try:
     msg = []
     while True:
-        message = bus.recv()    # Wait until a message is received.
+        message = bus.recv() # Wait until a message is received.
+        count += 1
         cobj = CMAC.new(secret, ciphermod=DES3)
         c = '{0:f} {1:x} {2:x} '.format(message.timestamp, message.arbitration_id, message.dlc)
         s=''
@@ -38,6 +39,12 @@ try:
             
         
         d = bytes.fromhex(s)
+        if d == b'start':
+            start = time.time()
+            continue;
+        if d == b'end':
+            end = time.time()
+            break; 
         msg.append(d)
         print(' {}'.format(c+s))
         if len(msg) == 2:
@@ -61,4 +68,6 @@ except KeyboardInterrupt:
     #Catch keyboard interrupt
     #os.system("sudo /sbin/ip link set can0 down")
     print('\n\rKeyboard interrtupt')
-
+count = (count - 2)/2
+TimeTaken = end - start
+print("The time taken to receive & decrypt {0} messages: {1}".format(count,TimeTaken))

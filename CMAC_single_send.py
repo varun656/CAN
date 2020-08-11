@@ -6,7 +6,7 @@ from Crypto.Cipher import DES3
 text = b'varun123'
 #print(text)
 print("Plain text to be encrypted : %s " % text)
-secret = b'1122334455667788'
+secret = b'1122334455661788'
 print("Key used for MAC           : %s " % secret) 
 cobj = CMAC.new(secret, ciphermod=DES3)
 cobj.update(text)
