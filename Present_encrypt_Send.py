@@ -15,7 +15,7 @@ count = 0
 
 key = codecs.decode('11223344556677889900','hex')
 print("The Present key value :",key )
-text = "deadbeefdeadbeef"
+text = "deadbeef"
 print("The plain text is : ",text)
 plain = codecs.decode(text,'hex')
 cipher = Present(key)

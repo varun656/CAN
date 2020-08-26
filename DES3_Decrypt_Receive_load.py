@@ -5,8 +5,8 @@ import codecs
 from Crypto.Cipher import DES3
 
 print('\n\rCAN Rx test')
-print('Bring up CAN0....')
-os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
+print('Bring up CAN1....')
+os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
 time.sleep(0.1)
 
 key = "sixteen byte key"

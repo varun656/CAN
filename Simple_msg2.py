@@ -1,18 +1,16 @@
 import can
 import time
 import os
-import sys
 
+#os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
+#time.sleep(0.1)
 
-
-ping = bytearray(sys.argv[1],'utf-8');
-#os.system("python3 ~/Documents/CAN/Simple_msg.py &")
-print("   Ping Test   ")
-print("Message sent            :", sys.argv[1]) 
-start = time.time()
+#bus2 = can.interface.Bus(channel='can1', bustype='socketcan_native')
 bus = can.interface.Bus(channel='can0', bustype='socketcan_native')
-msg = can.Message(arbitration_id=0x123,data = ping)
-bus.send(msg)
+
+'''for message in bus:
+    print(message.data)
+    d.append(message.data)'''
 msgrec = []
 try:
     #msgrec = []
@@ -25,11 +23,16 @@ try:
             s +=  '{0:x} '.format(message.data[i])
             d = b'message.data[i]'.decode()
             
+            
+        
         d = bytes.fromhex(s)
-        end = time.time()
         msgrec.append(d)
-        print("Message recieved        :", d)
-        TimeTaken = end - start
-        print("Total time for TX/RX is :",TimeTaken)
+        #print(' {}'.format(c+s))
+        msg = can.Message(arbitration_id=0x345,data= d)
+        bus.send(msg)
+        #msgrec.clear()
+        
 except KeyboardInterrupt:
+    #Catch keyboard interrupt
+    #os.system("sudo /sbin/ip link set can0 down")
     print('\n\rKeyboard interrtupt')

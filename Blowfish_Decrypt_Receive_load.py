@@ -6,8 +6,8 @@ from Crypto.Cipher import Blowfish
 
 
 print('\n\rCAN Rx test')
-print('Bring up CAN0....')
-os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
+print('Bring up CAN1....')
+os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
 key = b'1122334455667788'
 print("The Blowfish encryption key is :", key)
 cipher = Blowfish.new(key, Blowfish.MODE_ECB)

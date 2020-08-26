@@ -10,7 +10,7 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setwarnings(False)
 GPIO.setup(led,GPIO.OUT)
 GPIO.output(led,True)
-#msg1 = b'deadbeef'
+msg1 = b'deadbeef'
 
 #msg1 = [0x00,0x01,0x02,0x03]
 #msg1 = 0xdd,0x0e,0x0a,0x0d,0x0b,0x0e,0x0e,0x0f
@@ -22,7 +22,7 @@ GPIO.output(led,True)
 #msg1 = [1,2]
 
 #print(msg1)
-msg1 = bytearray(sys.argv[1],'utf-8');
+#msg1 = bytearray(sys.argv[1],'utf-8');
 
 
 #msg2 = bytearray(b"message")
@@ -52,9 +52,9 @@ try:
         msg = can.Message(arbitration_id=0x7de,data=msg1,extended_id=False)
         bus.send(msg)
         count +=1
-        time.sleep(0.1)
-        GPIO.output(led,False)
-        time.sleep(0.1) 
+        #time.sleep(0.1)
+        #GPIO.output(led,False)
+        #ime.sleep(0.1) 
         print(count)    
          
 

@@ -2,16 +2,14 @@ import can
 import time
 import os
 import codecs
-from CryptoPlus.Cipher.pypresent import Present
+
 
 
 print('\n\rCAN Rx test')
-#print('Bring up CAN0....')
-os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
+print('Bring up CAN1....')
+#os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
 time.sleep(0.1)
-key = codecs.decode('11223344556677889900','hex')
 
-cipher = Present(key)
 
 try:
     bus = can.interface.Bus(channel='can1', bustype='socketcan_native')
@@ -20,7 +18,6 @@ except OSError:
     exit()
     
 print('Ready')
-print("The present key value is :",key)
 #time1 = []
 count = 0
 try:
@@ -42,13 +39,10 @@ try:
         if d == b'end':
             end = time.time()
             break;    
-        decrypted = cipher.decrypt(d)
-        decrypt = codecs.encode(decrypted,'hex')
-        print(" The decrypted message is :", decrypt)
+        print(" The received message is :", d)
         #print(' {}\n'.format(c+s))
 
-        
-        
+              
     
 except KeyboardInterrupt:
     #Catch keyboard interrupt
@@ -56,4 +50,4 @@ except KeyboardInterrupt:
     print('\n\rKeyboard interrtupt')
 count = count - 2
 TimeTaken = end - start
-print("The time taken to receive & decrypt {0} messages: {1}".format(count,TimeTaken))
+print("The time taken to receive '{0}' message(s): {1}".format(count,TimeTaken))

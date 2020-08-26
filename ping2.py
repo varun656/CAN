@@ -6,11 +6,11 @@ import sys
 
 
 ping = bytearray(sys.argv[1],'utf-8');
-#os.system("python3 ~/Documents/CAN/Simple_msg.py &")
+os.system("python3 ~/Documents/CAN/Simple_msg2.py &")
 print("   Ping Test   ")
 print("Message sent            :", sys.argv[1]) 
 start = time.time()
-bus = can.interface.Bus(channel='can0', bustype='socketcan_native')
+bus = can.interface.Bus(channel='can1', bustype='socketcan_native')
 msg = can.Message(arbitration_id=0x123,data = ping)
 bus.send(msg)
 msgrec = []

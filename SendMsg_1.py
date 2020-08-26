@@ -23,9 +23,9 @@ bus.send(msg1)
 #print(len(data))
 print(data[:10])
 start = time.time()
-for i in range(10):
+for i in range(1000):
     msg = can.Message(arbitration_id=0x123,data= data[i])
-    #time.sleep(0.1)
+    time.sleep(1)
     bus.send(msg)
 end = time.time()
 msg2 = can.Message(arbitration_id=0x231,data = lastmsg)

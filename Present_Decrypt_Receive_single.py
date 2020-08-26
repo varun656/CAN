@@ -6,8 +6,8 @@ from CryptoPlus.Cipher.pypresent import Present
 
 
 print('\n\rCAN Rx test')
-#print('Bring up CAN0....')
-os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
+print('Bring up CAN1....')
+#os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
 time.sleep(0.1)
 key = codecs.decode('11223344556677889900','hex')
 
@@ -44,7 +44,7 @@ try:
             break;    
         decrypted = cipher.decrypt(d)
         decrypt = codecs.encode(decrypted,'hex')
-        print(" The decrypted message is :", decrypt)
+        print(" The decrypted message is :", decrypted)
         #print(' {}\n'.format(c+s))
 
         

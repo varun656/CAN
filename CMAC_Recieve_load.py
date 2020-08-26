@@ -10,14 +10,14 @@ secret = b'1122334455667788'
 print("Receiver's key used for MAC : %s " % secret) 
 
 cobj = CMAC.new(secret, ciphermod=DES3)
-print('\n\rCAN Rx test')
-print('Bring up CAN0....')
-os.system("sudo /sbin/ip link set can0 up type can bitrate 500000")
+#print('\n\rCAN Rx test')
+print('Bring up CAN1....')
+os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
 time.sleep(0.1)
 
 
 try:
-    bus = can.interface.Bus(channel='can0', bustype='socketcan_native')
+    bus = can.interface.Bus(channel='can1', bustype='socketcan_native')
 except OSError:
     print('Cannot find PiCAN board.')
     exit()
@@ -46,7 +46,7 @@ try:
             end = time.time()
             break; 
         msg.append(d)
-        print(' {}'.format(c+s))
+        #print(' {}'.format(c+s))
         if len(msg) == 2:
             cobj.update(msg[1])
             mac = msg[0]

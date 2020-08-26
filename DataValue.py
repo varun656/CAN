@@ -5,9 +5,9 @@ import codecs
 data = pickle.load( open("random_data.p","rb"))
 #print(data[99])
 
-for i in range(10):
+'''for i in range(10):
     msg = codecs.encode(data[i],'hex')
-    print(msg)
+    print(msg)'''
 
-msg = codecs.encode(data[9],'hex')
-#print(msg)
+msg = codecs.encode(data[298],'hex')
+print(msg)

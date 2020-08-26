@@ -2,16 +2,16 @@ import can
 import time
 import os
 import codecs
-from CryptoPlus.Cipher.pypresent import Present
+from Crypto.Cipher import DES3
 
 
 print('\n\rCAN Rx test')
-#print('Bring up CAN0....')
-os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
+print('Bring up CAN1....')
+#os.system("sudo /sbin/ip link set can1 up type can bitrate 500000")
 time.sleep(0.1)
-key = codecs.decode('11223344556677889900','hex')
-
-cipher = Present(key)
+key = "sixteen byte key"
+print("The Triple DES key value :",key )
+cipher = DES3.new(key, DES3.MODE_ECB)
 
 try:
     bus = can.interface.Bus(channel='can1', bustype='socketcan_native')
@@ -19,8 +19,6 @@ except OSError:
     print('Cannot find PiCAN board.')
     exit()
     
-print('Ready')
-print("The present key value is :",key)
 #time1 = []
 count = 0
 try:
@@ -44,7 +42,7 @@ try:
             break;    
         decrypted = cipher.decrypt(d)
         decrypt = codecs.encode(decrypted,'hex')
-        print(" The decrypted message is :", decrypt)
+        print(" The decrypted message is :", decrypted)
         #print(' {}\n'.format(c+s))
 
         
